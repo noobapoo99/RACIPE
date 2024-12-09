@@ -4,11 +4,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%; /* Ensure the navbar takes up the full width */
+  width: 100%;
+  background-color: #1e1e2f;
+  border-radius: 10px;
+
+  //padding: 10px;
+  margin-bottom: 8px;
 }
 
 a {
   transition: all 0.4s ease;
+  color: #ffffff;
 
   &:hover {
     scale: 1.05;
@@ -19,6 +25,7 @@ a {
   flex: 1; /* Let the left section take up available space */
   display: flex;
   align-items: center;
+  padding: 20px;
   gap: 50px;
 }
 
