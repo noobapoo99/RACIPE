@@ -1,0 +1,35 @@
+/* navbar.css */
+.navbar {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Ensure the navbar takes up the full width */
+}
+
+a {
+  transition: all 0.4s ease;
+
+  &:hover {
+    scale: 1.05;
+  }
+}
+
+.left {
+  flex: 1; /* Let the left section take up available space */
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.right {
+  flex: 1; /* Let the right section take up available space */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.right a {
+  padding: 12px 24px;
+  margin: 0; /* Remove margin from the right section anchor tags */
+}
