@@ -1,12 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios"; // Ensure axios is installed
+
 import "./homePage.css";
 
 function HomePage() {
   const [activeForm, setActiveForm] = useState("rate-reaction");
+  const [formData, setFormData] = useState({
+    temperature: "",
+    concentration: "",
+    molarMass: "",
+    numberOfMolecules: "",
+  });
+  const [prediction, setPrediction] = useState(null);
 
   const handleToggleForm = (form) => {
     setActiveForm(form);
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    // Check if all required fields are filled
+    if (
+      formData.temperature &&
+      formData.concentration &&
+      formData.molarMass &&
+      formData.numberOfMolecules
+    ) {
+      // Make a POST request when all fields are filled
+      axios
+        .post("http://127.0.0.1:5000/predict", {
+          temperature: formData.temperature,
+          concentration: formData.concentration,
+          molar_mass: formData.molarMass,
+          number_of_atoms: formData.numberOfMolecules,
+        })
+        .then((response) => {
+          setPrediction(response.data.heat_capacity); // Assuming the response contains 'heat_capacity'
+        })
+        .catch((error) => {
+          console.error("Error fetching prediction:", error);
+        });
+    }
+  }, [formData]);
 
   return (
     <div className="homePage">
@@ -34,7 +76,52 @@ function HomePage() {
               Enter the Process temperature in Kelvin:
               <input
                 type="number"
+                name="temperature"
+                value={formData.temperature}
+                onChange={handleChange}
                 placeholder="Process temperature (K)"
+                className="form-input"
+              />
+            </label>
+            <label className="form-label">
+              Enter molar mass
+              <input
+                type="number"
+                name="molarMass"
+                value={formData.molarMass}
+                onChange={handleChange}
+                placeholder="Molar mass"
+                className="form-input"
+              />
+            </label>
+            <label className="form-label">
+              Enter concentration
+              <input
+                type="number"
+                name="concentration"
+                value={formData.concentration}
+                onChange={handleChange}
+                placeholder="Concentration"
+                className="form-input"
+              />
+            </label>
+            <label className="form-label">
+              Enter no of molecules
+              <input
+                type="number"
+                name="numberOfMolecules"
+                value={formData.numberOfMolecules}
+                onChange={handleChange}
+                placeholder="Number of molecules"
+                className="form-input"
+              />
+            </label>
+            <label className="form-label">
+              Heat capacity
+              <p> {prediction}</p>
+              <input
+                type="number"
+                placeholder="heat capacity "
                 className="form-input"
               />
             </label>
